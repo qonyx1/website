@@ -4,6 +4,13 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>kurffew</title>
+
+  <link rel="icon" type="image/png" href="favicon.png" />
+  <meta property="og:title" content="kurffew" />
+  <meta property="og:description" content="private backend developer & community manager. experienced in FastAPI, discord.py, and pymongo." />
+  <meta name="theme-color" content="#000000" />
+  <meta property="og:type" content="website" />
+
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;900&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://unpkg.com/@phosphor-icons/web"></script>
@@ -35,7 +42,6 @@
       animation: fadeInUp 1s ease-out;
     }
 
-    /* Expand animation for loader box */
     @keyframes expandBox {
       0% { transform: scale(1); }
       100% { transform: scale(1.3); }
@@ -64,7 +70,7 @@
     document.addEventListener('DOMContentLoaded', () => {
       const audio = document.getElementById('bg-music');
       const video = document.getElementById('bg-video');
-      video.pause(); // Start paused
+      video.pause();
 
       const loader = document.getElementById('loader');
       const content = document.getElementById('main-content');
@@ -114,7 +120,7 @@
 
   <div id="main-content" class="hidden h-screen flex items-center justify-center">
     <div class="backdrop-blur-xl bg-[rgba(69,69,69,0.1)] p-16 rounded-3xl shadow-[0_0_30px_rgba(160,160,160,0.2)] max-w-lg w-full animate-fade-in-up text-center">
-      <img src="https://cdn.discordapp.com/avatars/632774463552880641/926d1b2dfa000239e4b4b2b1a7ff8ce6.png?size=512"
+      <img src="avatar.png"
            alt="Profile"
            class="w-32 h-32 rounded-full mx-auto mb-8 border-4 border-gray-700 object-cover" />
       <h1 class="text-4xl font-bold mb-6 text-gray-200">kurffew</h1>
@@ -135,6 +141,5 @@
       <span class="mx-4 text-gray-500">•</span>
       <a href="https://discord.gg/devnet" class="hover:text-white transition">DevNet</a>
   </div>
-  
 </body>
 </html>
