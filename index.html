@@ -1,123 +1,140 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>My Stunning Portfolio</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;900&display=swap" rel="stylesheet">
-    <script>
-      document.addEventListener('DOMContentLoaded', () => {
-        const audio = document.getElementById('bg-music');
-        audio.play().catch(() => {
-          document.addEventListener('click', () => audio.play(), { once: true });
-        });
-      });
-    </script>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://unpkg.com/@phosphor-icons/web"></script>
-    <style>
-      html, body {
-        margin: 0;
-        padding: 0;
-        height: 100%;
-        background-color: black;
-        overflow: hidden;
-        font-family: 'Montserrat', sans-serif;
-      }
-      #bg-video {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100vw;
-        height: 100vh;
-        object-fit: cover;
-        z-index: -1;
-      }
-    </style>
-  </head>
-  <body class="text-white">
-    <!-- Background Video (optional) -->
-    <video id="bg-video" autoplay muted loop>
-      <!-- <source src="your-video.mp4" type="video/mp4"> -->
-    </video>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>kurffew</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      font-family: 'Montserrat', sans-serif;
+      overflow: hidden;
+    }
 
-    <!-- Loading Spinner -->
-    <div id="loader" class="fixed inset-0 bg-black flex items-center justify-center z-50">
-      <div class="p-6 bg-gray-800 border border-gray-700 rounded-xl shadow-lg">
-        <div class="w-10 h-10 border-4 border-gray-600 border-t-transparent rounded-full animate-spin"></div>
-      </div>
-    </div>
+    .video-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: -5;
+      pointer-events: none;
+    }
 
-    <!-- Background Music -->
-    <audio id="bg-music" src="music.mp3" autoplay loop></audio>
+    @keyframes fadeInUp {
+      0% { opacity: 0; transform: translateY(20px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+    .animate-fade-in-up {
+      animation: fadeInUp 1s ease-out;
+    }
 
-    <!-- Main Content -->
-    <div id="main-content" class="hidden h-screen flex items-center justify-between">
-      <!-- Left Column: Main Content -->
-      <div class="w-2/3 h-full p-16 flex flex-col items-center justify-center">
-        <div class="backdrop-blur-xl bg-white/10 p-16 rounded-3xl shadow-[0_0_30px_rgba(255,255,255,0.1)] max-w-2xl w-full animate-fade-in-up text-center">
-          <img src="profile.jpg" alt="Profile Picture" class="w-32 h-32 rounded-full mx-auto mb-8 border-4 border-gray-700 object-cover" />
-          <h1 class="text-4xl font-bold mb-6 text-gray-200">Hello, I'm [Your Name]</h1>
-          <p class="text-gray-400 text-lg mb-12">Welcome to my portfolio. I'm a developer, designer, and music lover. Let's connect!</p>
-          <div class="flex justify-center gap-10 text-gray-500 text-3xl mt-12">
-            <a href="#" aria-label="Twitter"><i class="ph-fill ph-twitter-logo"></i></a>
-            <a href="#" aria-label="GitHub"><i class="ph-fill ph-github-logo"></i></a>
-            <a href="#" aria-label="LinkedIn"><i class="ph-fill ph-linkedin-logo"></i></a>
-            <a href="#" aria-label="Instagram"><i class="ph-fill ph-instagram-logo"></i></a>
-          </div>
-        </div>
-      </div>
+    /* Expand animation for loader box */
+    @keyframes expandBox {
+      0% { transform: scale(1); }
+      100% { transform: scale(1.3); }
+    }
+    .expand {
+      animation: expandBox 0.5s ease-out forwards;
+    }
 
-      <!-- Right Column: My Work -->
-      <div class="w-1/3 h-full p-16 flex flex-col items-center justify-center">
-        <div class="backdrop-blur-xl bg-white/10 p-16 rounded-3xl shadow-[0_0_30px_rgba(255,255,255,0.1)] max-w-2xl w-full animate-fade-in-up text-center">
-          <h2 class="text-4xl font-bold mb-6 text-gray-200">My Work</h2>
-          <div class="space-y-8">
-            <div class="bg-gray-800 p-6 rounded-xl shadow-md">
-              <img src="project1.jpg" alt="Project 1" class="w-full h-48 object-cover rounded-t-xl" />
-              <h3 class="text-xl font-semibold text-gray-200 mt-4">Project 1</h3>
-            </div>
-            <div class="bg-gray-800 p-6 rounded-xl shadow-md">
-              <img src="project2.jpg" alt="Project 2" class="w-full h-48 object-cover rounded-t-xl" />
-              <h3 class="text-xl font-semibold text-gray-200 mt-4">Project 2</h3>
-            </div>
-            <div class="bg-gray-800 p-6 rounded-xl shadow-md">
-              <img src="project3.jpg" alt="Project 3" class="w-full h-48 object-cover rounded-t-xl" />
-              <h3 class="text-xl font-semibold text-gray-200 mt-4">Project 3</h3>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+    .footer-like {
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      backdrop-filter: blur(10px);
+      background-color: rgba(69, 69, 69, 0.1);
+      padding: 12px 20px;
+      border-radius: 8px;
+      box-shadow: 0px 0px 15px rgba(160, 160, 160, 0.2);
+      max-width: 400px;
+      text-align: center;
+    }
 
-    <!-- Footer -->
-    <footer class="mt-10 backdrop-blur-xl bg-white/10 px-8 py-4 rounded-xl shadow-[0_0_20px_rgba(255,255,255,0.1)]">
-      <p class="text-red-500 text-sm">Account not disabled</p>
-    </footer>
+    #loader { cursor: default; }
+  </style>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const audio = document.getElementById('bg-music');
+      const video = document.getElementById('bg-video');
+      video.pause(); // Start paused
 
-    <script>
+      const loader = document.getElementById('loader');
+      const content = document.getElementById('main-content');
+      const wrapper = loader.querySelector('.loader-wrapper');
+
       window.addEventListener('load', () => {
         setTimeout(() => {
-          document.getElementById('loader').style.display = 'none';
-          document.getElementById('main-content').classList.remove('hidden');
+          wrapper.innerHTML = '';
+          const txt = document.createElement('p');
+          txt.id = 'continue-text';
+          txt.className = 'text-center text-gray-200';
+          txt.textContent = 'Click to continue';
+          wrapper.appendChild(txt);
+          wrapper.classList.add('expand');
+          loader.style.cursor = 'pointer';
+          document.addEventListener('click', () => {
+            loader.style.display = 'none';
+            content.classList.remove('hidden');
+            video.play();
+            audio.play();
+          }, { once: true });
         }, 2000);
       });
-    </script>
+    });
+  </script>
+</head>
+<body class="text-white">
+  <video
+    id="bg-video"
+    muted
+    loop
+    playsinline
+    class="fixed inset-0 w-full h-full object-cover z-[-10] pointer-events-none">
+    <source src="video.mp4" type="video/mp4" />
+    Your browser does not support the video tag.
+  </video>
 
-    <style>
-      @keyframes fadeInUp {
-        0% {
-          opacity: 0;
-          transform: translateY(20px);
-        }
-        100% {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
-      .animate-fade-in-up {
-        animation: fadeInUp 1s ease-out;
-      }
-    </style>
-  </body>
+  <div class="video-overlay"></div>
+
+  <div id="loader" class="fixed inset-0 bg-black flex items-center justify-center z-50">
+    <div class="loader-wrapper p-6 backdrop-blur-xl bg-[rgba(69,69,69,0.1)] border border-gray-700 rounded-xl shadow-[0_0_30px_rgba(160,160,160,0.2)]">
+      <div class="w-10 h-10 border-4 border-gray-600 border-t-gray-400 rounded-full animate-spin"></div>
+    </div>
+  </div>
+
+  <audio id="bg-music" src="music.mp3" loop></audio>
+
+  <div id="main-content" class="hidden h-screen flex items-center justify-center">
+    <div class="backdrop-blur-xl bg-[rgba(69,69,69,0.1)] p-16 rounded-3xl shadow-[0_0_30px_rgba(160,160,160,0.2)] max-w-lg w-full animate-fade-in-up text-center">
+      <img src="https://cdn.discordapp.com/avatars/632774463552880641/926d1b2dfa000239e4b4b2b1a7ff8ce6.png?size=512"
+           alt="Profile"
+           class="w-32 h-32 rounded-full mx-auto mb-8 border-4 border-gray-700 object-cover" />
+      <h1 class="text-4xl font-bold mb-6 text-gray-200">kurffew</h1>
+      <p class="text-gray-400 text-lg mb-12">
+        private <b>backend developer & community manager</b>. heavily experienced in FastAPI, discord.py, discord.py-self && pymongo
+      </p>
+      <div class="flex justify-center gap-10 text-gray-500 text-3xl">
+        <a href="https://discord.com/users/632774463552880641" aria-label="Discord"><i class="ph-fill ph-discord-logo"></i></a>
+        <a href="https://github.com/qonyx1" aria-label="GitHub"><i class="ph-fill ph-github-logo"></i></a>
+      </div>
+    </div>
+  </div>
+  
+  <div class="footer-like flex justify-center items-center text-sm text-gray-300 whitespace-nowrap px-6 py-4 max-w-fit backdrop-blur-xl">
+      <a href="https://polarisadmin.xyz" class="hover:text-white transition">POLARIS Administration</a>
+      <span class="mx-4 text-gray-500">•</span>
+      <a href="https://nighthawk.work" class="hover:text-white transition">Nighthawk Scam Network</a>
+      <span class="mx-4 text-gray-500">•</span>
+      <a href="https://discord.gg/devnet" class="hover:text-white transition">DevNet</a>
+  </div>
+  
+</body>
 </html>
