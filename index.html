@@ -14,22 +14,21 @@
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;900&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
   <style>
     html, body {
       margin: 0;
       padding: 0;
-      height: 100%;
+      min-height: 100%;
       font-family: 'Montserrat', sans-serif;
-      overflow: hidden;
+      overflow-x: hidden;
+      overflow-y: auto;
     }
 
     .video-overlay {
       position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(0, 0, 0, 0.5);
+      inset: 0;
+      background-color: rgba(0, 0, 0, 0.9);
       z-index: -5;
       pointer-events: none;
     }
@@ -38,17 +37,13 @@
       0% { opacity: 0; transform: translateY(20px); }
       100% { opacity: 1; transform: translateY(0); }
     }
-    .animate-fade-in-up {
-      animation: fadeInUp 1s ease-out;
-    }
+    .animate-fade-in-up { animation: fadeInUp 1s ease-out; }
 
     @keyframes expandBox {
       0% { transform: scale(1); }
       100% { transform: scale(1.3); }
     }
-    .expand {
-      animation: expandBox 0.5s ease-out forwards;
-    }
+    .expand { animation: expandBox 0.5s ease-out forwards; }
 
     .footer-like {
       position: absolute;
@@ -59,13 +54,40 @@
       background-color: rgba(69, 69, 69, 0.1);
       padding: 12px 20px;
       border-radius: 8px;
-      box-shadow: 0px 0px 15px rgba(160, 160, 160, 0.2);
-      max-width: 400px;
+      box-shadow: 0 0 15px rgba(160, 160, 160, 0.2);
+      display: flex;
+      flex-wrap: nowrap;        /* no wrapping */
+      white-space: nowrap;      /* no line breaks */
+      overflow-x: auto;         /* scroll if too long */
+      justify-content: center;
+      gap: 10px;
       text-align: center;
+      max-width: 100%;
     }
 
-    #loader { cursor: default; }
+    .tilt-wrapper {
+      perspective: 1000px;
+    }
+
+    .tilt {
+      transition: transform 0.2s ease-out;
+      transform-style: preserve-3d;
+      will-change: transform;
+    }
+
+    #loader {
+      cursor: default;
+      touch-action: manipulation;
+    }
+
+    @media (max-width: 640px) {
+      .footer-like {
+        padding: 8px 12px;
+        font-size: 0.75rem;
+      }
+    }
   </style>
+
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       const audio = document.getElementById('bg-music');
@@ -81,12 +103,12 @@
           wrapper.innerHTML = '';
           const txt = document.createElement('p');
           txt.id = 'continue-text';
-          txt.className = 'text-center text-gray-200';
-          txt.textContent = 'Click to continue';
+          txt.className = 'text-center text-gray-200 text-sm';
+          txt.textContent = 'Tap to continue';
           wrapper.appendChild(txt);
           wrapper.classList.add('expand');
           loader.style.cursor = 'pointer';
-          document.addEventListener('click', () => {
+          loader.addEventListener('click', () => {
             loader.style.display = 'none';
             content.classList.remove('hidden');
             video.play();
@@ -103,43 +125,55 @@
     muted
     loop
     playsinline
-    class="fixed inset-0 w-full h-full object-cover z-[-10] pointer-events-none">
+    class="hidden sm:block fixed inset-0 w-full h-full object-cover z-[-10] pointer-events-none">
     <source src="video.mp4" type="video/mp4" />
-    Your browser does not support the video tag.
   </video>
-
   <div class="video-overlay"></div>
 
   <div id="loader" class="fixed inset-0 bg-black flex items-center justify-center z-50">
     <div class="loader-wrapper p-6 backdrop-blur-xl bg-[rgba(69,69,69,0.1)] border border-gray-700 rounded-xl shadow-[0_0_30px_rgba(160,160,160,0.2)]">
-      <div class="w-10 h-10 border-4 border-gray-600 border-t-gray-400 rounded-full animate-spin"></div>
+      <div class="w-8 h-8 sm:w-10 sm:h-10 border-4 border-gray-600 border-t-gray-400 rounded-full animate-spin"></div>
     </div>
   </div>
 
   <audio id="bg-music" src="music.mp3" loop></audio>
 
-  <div id="main-content" class="hidden h-screen flex items-center justify-center">
-    <div class="backdrop-blur-xl bg-[rgba(69,69,69,0.1)] p-16 rounded-3xl shadow-[0_0_30px_rgba(160,160,160,0.2)] max-w-lg w-full animate-fade-in-up text-center">
-      <img src="avatar.png"
-           alt="Profile"
-           class="w-32 h-32 rounded-full mx-auto mb-8 border-4 border-gray-700 object-cover" />
-      <h1 class="text-4xl font-bold mb-6 text-gray-200">kurffew</h1>
-      <p class="text-gray-400 text-lg mb-12">
-        private <b>backend developer & community manager</b>. heavily experienced in FastAPI, discord.py, discord.py-self && pymongo
-      </p>
-      <div class="flex justify-center gap-10 text-gray-500 text-3xl">
-        <a href="https://discord.com/users/632774463552880641" aria-label="Discord"><i class="ph-fill ph-discord-logo"></i></a>
-        <a href="https://github.com/qonyx1" aria-label="GitHub"><i class="ph-fill ph-github-logo"></i></a>
+  <div id="main-content" class="hidden min-h-screen flex items-center justify-center px-4 sm:px-6">
+    <div class="tilt-wrapper">
+      <div class="tilt backdrop-blur-xl bg-[rgba(69,69,69,0.1)] p-4 sm:p-8 md:p-16 rounded-3xl shadow-[0_0_30px_rgba(160,160,160,0.2)] max-w-lg w-full animate-fade-in-up text-center">
+        <img src="avatar.png"
+             alt="Profile"
+             class="w-20 h-20 sm:w-24 sm:h-24 md:w-32 md:h-32 rounded-full mx-auto mb-4 sm:mb-6 border-4 border-gray-700 object-cover" />
+        <h1 class="text-2xl sm:text-3xl md:text-4xl font-bold mb-3 sm:mb-4 text-gray-200">kurffew</h1>
+        <p class="text-gray-400 text-sm sm:text-base md:text-lg mb-8 sm:mb-10">
+          private <b>backend developer & community manager</b>.<br class="sm:hidden"/> heavily experienced in FastAPI, discord.py & pymongo
+        </p>
+        <div class="flex justify-center gap-6 sm:gap-8 text-gray-500 text-xl sm:text-2xl">
+          <a href="https://discord.com/users/632774463552880641" aria-label="Discord" class="p-2 hover:text-white transition rounded"><i class="ph-fill ph-discord-logo"></i></a>
+          <a href="https://github.com/qonyx1" aria-label="GitHub" class="p-2 hover:text-white transition rounded"><i class="ph-fill ph-github-logo"></i></a>
+        </div>
       </div>
     </div>
   </div>
-  
-  <div class="footer-like flex justify-center items-center text-sm text-gray-300 whitespace-nowrap px-6 py-4 max-w-fit backdrop-blur-xl">
-      <a href="https://polarisadmin.xyz" class="hover:text-white transition">POLARIS Administration</a>
-      <span class="mx-4 text-gray-500">•</span>
-      <a href="https://nighthawk.work" class="hover:text-white transition">Nighthawk Scam Network</a>
-      <span class="mx-4 text-gray-500">•</span>
-      <a href="https://discord.gg/devnet" class="hover:text-white transition">DevNet</a>
+
+  <div class="footer-like text-gray-300">
+    <a href="https://polarisadmin.xyz" class="px-3 py-1 hover:text-white transition rounded">POLARIS Administration</a>
+    <span class="mx-4 text-gray-500">•</span>
+    <a href="https://nighthawk.work" class="px-3 py-1 hover:text-white transition rounded">Nighthawk Scam Network</a>
+    <span class="mx-4 text-gray-500">•</span>
+    <a href="https://discord.gg/devnet" class="px-3 py-1 hover:text-white transition rounded">DevNet</a>
   </div>
+
+  <script>
+    const tilt = document.querySelector('.tilt');
+    if (tilt) {
+      window.addEventListener('mousemove', e => {
+        const percentX = (e.clientX - innerWidth/2)/(innerWidth/2);
+        const percentY = (e.clientY - innerHeight/2)/(innerHeight/2);
+        tilt.style.transform = `rotateX(${-percentY*10}deg) rotateY(${percentX*10}deg)`;
+      });
+      window.addEventListener('mouseleave', () => tilt.style.transform = 'rotateX(0) rotateY(0)');
+    }
+  </script>
 </body>
 </html>
